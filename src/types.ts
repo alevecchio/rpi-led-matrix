@@ -189,6 +189,13 @@ export interface MatrixOptions {
    * @default false
    */
   showRefreshRate: boolean;
+
+  /**
+   * Limit refresh rate to this frequency in Hz. Useful to keep a 
+   * constant refresh rate on loaded system. 0=no limit. 
+   * @default 0
+   */
+  limitRefreshRateHz: number;
 }
 
 /**

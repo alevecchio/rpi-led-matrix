@@ -400,6 +400,7 @@ RGBMatrix::Options LedMatrixAddon::create_matrix_options(const Napi::Env& env, c
 	options.rows					 = obj.Get("rows").As<Napi::Number>();
 	options.scan_mode				 = obj.Get("scanMode").As<Napi::Number>();
 	options.show_refresh_rate		 = obj.Get("showRefreshRate").As<Napi::Boolean>();
+	options.limit_refresh_rate_hz		 = obj.Get("limitRefreshRateHz").As<Napi::Number>();
 
 	// Validate the options using native method
 	std::string error;
@@ -451,6 +452,7 @@ Napi::Object LedMatrixAddon::matrix_options_to_obj(const Napi::Env& env, const R
 	obj.Set("rows", Napi::Number::New(env, options.rows));
 	obj.Set("scanMode", Napi::Number::New(env, options.scan_mode));
 	obj.Set("showRefreshRate", Napi::Boolean::New(env, options.show_refresh_rate));
+	obj.Set("limitRefreshRateHz", Napi::Number::New(env, options.limit_refresh_rate_hz));
 
 	return obj;
 }
