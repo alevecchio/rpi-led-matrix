@@ -37,6 +37,7 @@ class LedMatrixAddon : public Napi::ObjectWrap<LedMatrixAddon> {
 	Napi::Value pwm_bits(const Napi::CallbackInfo& info);
 	Napi::Value set_pixel(const Napi::CallbackInfo& info);
 	Napi::Value width(const Napi::CallbackInfo& info);
+	Napi::Value set_image(const Napi::CallbackInfo& info);
 
 	Napi::Value sync(const Napi::CallbackInfo& info);
 
