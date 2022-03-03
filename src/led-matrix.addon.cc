@@ -41,7 +41,8 @@ Napi::Object LedMatrixAddon::Init(Napi::Env env, Napi::Object exports) {
 		InstanceMethod("pwmBits", &LedMatrixAddon::pwm_bits),
 		InstanceMethod("setPixel", &LedMatrixAddon::set_pixel),
 		InstanceMethod("sync", &LedMatrixAddon::sync),
-		InstanceMethod("width", &LedMatrixAddon::width) });
+		InstanceMethod("width", &LedMatrixAddon::width) }),
+		InstanceMethod("setImage", &LedMatrixAddon::set_image);
 
 	constructor = Napi::Persistent(func);
 	constructor.SuppressDestruct();
@@ -271,6 +272,21 @@ Napi::Value LedMatrixAddon::draw_text(const Napi::CallbackInfo& info) {
 	const auto k		= info[3].IsNumber() ? info[3].As<Napi::Number>().Int32Value() : 0;
 	const auto bg_color = bg_color_.r == 0 && bg_color_.g == 0 && bg_color_.b == 0 ? nullptr : &bg_color_;
 	DrawText(this->canvas_, *font_, x, y + font_->baseline(), fg_color_, bg_color, text, k);
+
+	return info.This();
+}
+
+Napi::Value LedMatrixAddon::set_image(const Napi::CallbackInfo& info) {
+	const auto buffer 			= info[0].As<Napi::Buffer<uint8_t> >();
+	const auto canvas_offset_x 	= info[1].IsNumber() ? info[1].As<Napi::Number>().Uint32Value() : 0;
+	const auto canvas_offset_y 	= info[2].IsNumber() ? info[2].As<Napi::Number>().Uint32Value() : 0;
+	const auto image_width		= info[3].IsNumber() ? info[3].As<Napi::Number>().Uint32Value() : this->matrix_->width();
+	const auto image_height		= info[4].IsNumber() ? info[4].As<Napi::Number>().Uint32Value() : this->matrix_->height();
+	const auto is_bgr			= info[5].As<Napi::Boolean>().Uint32Value();
+
+	const auto bufferSize 		= buffer.Length();
+	const auto data   			= buffer.Data();
+	SetImage(this->canvas_, canvas_offset_x, canvas_offset_y, buffer, bufferSize, image_width, image_height, is_bgr);
 
 	return info.This();
 }

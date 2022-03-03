@@ -106,5 +106,6 @@
     "__errc": "cpp",
     "__node_handle": "cpp",
     "optional": "cpp"
-  }
+  },
+  "C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools"
 }
